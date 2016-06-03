@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <h1><%= @job.company.name.upcase %>: <%= current_user.first_name.capitalize %></h1>
+      <hr>
+
+
+
+      <form action="/create_shift" method="post">
+        <!-- Hidden input for authenticity token to protect from forgery -->
+        <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+        <!-- Label and input for time_out -->
+        <div class="form-group">
+          <input type="datetime" id="time_in" name="time_in" value="<%= Time.now.in_time_zone("Central Time (US & Canada)") %>" class="form-control">
+        </div>
+
+        <input type="hidden" id="job_id" name="job_id" value="<%= @job.id %>">
+
+        <button class="btn">
+          Clock In
+        </button>
+      </form>
+
+
+
+    </div>
+  </div>
+</div>

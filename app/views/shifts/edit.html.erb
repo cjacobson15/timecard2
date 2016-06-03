@@ -1,0 +1,79 @@
+<!-- Validation failure messages -->
+<% if @shift.errors.any? %>
+  <% @shift.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Make OPTIONAL Shift Edits for <%= @shift.time_in.to_date %></h3>
+</div>
+
+
+  <h4>Job:</h4> <%= @shift.job.company.name.upcase %> <%= @shift.job.title %>
+  <h4>Hours Worked:</h4> <%= @shift.hours_worked %>
+  <h4>Pay:</h4> <%= @shift.total_pay %>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/update_shift/<%= @shift.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for time_in -->
+      <div class="form-group">
+        <label for="time_in" class="control-label">
+          Time in
+        </label>
+
+        <input type="text" id="time_in" name="time_in" placeholder="Time in" class="form-control" value="<%= @shift.time_in.in_time_zone("Central Time (US & Canada)") %>">
+      </div>
+
+      <!-- Label and input for time_out -->
+      <div class="form-group">
+        <label for="time_out" class="control-label">
+          Time out
+        </label>
+
+        <input type="text" id="time_out" name="time_out" placeholder="Time out" class="form-control" value="<%= @shift.time_out.in_time_zone("Central Time (US & Canada)") %>">
+      </div>
+
+
+
+
+
+      <!-- Label and input for reimbursements -->
+      <div class="form-group">
+        <label for="reimbursements" class="control-label">
+          Reimbursements (Optional)
+        </label>
+
+        <input type="text" id="reimbursements" name="reimbursements" placeholder="Reimbusments (enter $ amount)" class="form-control" value="<%= @shift.reimbursements %>">
+      </div>
+
+      <!-- Label and input for bonus -->
+      <div class="form-group">
+        <label for="bonus" class="control-label">
+          Bonus (Optional)
+        </label>
+
+        <input type="text" id="bonus" name="bonus" placeholder="Bonus (enter $ amount)" class="form-control" value="<%= @shift.bonus %>">
+      </div>
+
+
+
+
+
+
+
+      <button class="btn btn-warning">
+        Update Shift
+      </button>
+      or
+      <a href="/">Return Home</a>
+    </form>
+  </div>
+</div>
