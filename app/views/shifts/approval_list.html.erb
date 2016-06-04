@@ -1,79 +1,88 @@
 <div class="page-header">
   <h1>
-    Approve Shifts
+    Employee Shifts
   </h1>
 </div>
 
-<% @jobs.where(admin_id: @admin_id).all do |job| %>
+<% @jobs.where(admin_id: @admin_id).each do |job| %>
 
-<h2><%= job.company.name.upcase %>: <%= job.title %> (<%= job.user_id %>)</h2>
+<h2><%= job.user.first_name %> <%= job.user.last_name %>:  <%= job.title %> (<%= job.company.name %>)</h2>
 <hr>
-<% @shifts.where(user_id: job.user_id).each do |shift| %>
-  <% if shift.approval != true %>
-  <h3>Shifts to approve</h3>
-  <div class="row">
-    <div class="col-md-12">
-      <table class="table table-striped table-hover">
-        <tr>
-          <th>Date</th>
-          <th>Time In</th>
-          <th>Time Out</th>
-          <th>Hours Worked</th>
-          <th>Total Pay</th>
-          <th>Bonus</th>
-          <th>Reimbursements</th>
-          <th>Approve</th>
-          <th></th>
-        </tr>
+
+<h3>Shifts to approve</h3>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Date</th>
+        <th>Time In</th>
+        <th>Time Out</th>
+        <th>Hours Worked</th>
+        <th>Total Pay</th>
+        <th>Bonus</th>
+        <th>Reimbursements</th>
+        <th>Approve</th>
+        <th> </th>
+      </tr>
+      <% @shifts.where(job_id: job.user_id).each do |shift| %>
+      <% if shift.approval != true %>
 
 
-        <tr>
-          <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_in.min.to_s.rjust(2, '0') %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_out.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_out.min.to_s.rjust(2, '0') %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.hours_worked %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.total_pay %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.bonus %></a></td>
-          <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.reimbursements %></a></td>
-          <td>
-            <a href="/delete_shift/<%= shift.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-          </td>
-        </tr>
-        <% else %>
-        <h3>Previously Approved Shifts</h3>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-striped table-hover">
-              <tr>
-                <th>Date</th>
-                <th>Time In</th>
-                <th>Time Out</th>
-                <th>Hours Worked</th>
-                <th>Total Pay</th>
-                <th>Bonus</th>
-                <th>Reimbursements</th>
-                <th></th>
-              </tr>
+      <tr>
+        <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_in.min.to_s.rjust(2, '0') %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_out.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_out.min.to_s.rjust(2, '0') %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.hours_worked %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.total_pay %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.bonus %></a></td>
+        <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.reimbursements %></a></td>
+        <td>
+          <a href="#"><i class="fa fa-square-o" aria-hidden="true"></i></a>
+        </td>
+        <td>
+          <a href="/delete_shift/<%= shift.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+      <% end %>
+    </table>
 
 
-              <tr>
-                <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_in.min.to_s.rjust(2, '0') %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_out.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_out.min.to_s.rjust(2, '0') %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.hours_worked %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.total_pay %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.bonus %></a></td>
-                <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.reimbursements %></a></td>
-                <td>
-                  <a href="/delete_shift/<%= shift.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-                </td>
-              </tr>
-              <% end %>
+      <h3>Previously Approved Shifts</h3>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped table-hover">
+            <tr>
+              <th>Date</th>
+              <th>Time In</th>
+              <th>Time Out</th>
+              <th>Hours Worked</th>
+              <th>Total Pay</th>
+              <th>Bonus</th>
+              <th>Reimbursements</th>
+              <th>Unapprove</th>
+              <th></th>
+            </tr>
+            <% @shifts.where(job_id: job.user_id, approval: true).each do |shift| %>
+            <tr>
+              <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_in.min.to_s.rjust(2, '0') %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_out.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_out.min.to_s.rjust(2, '0') %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.hours_worked %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.total_pay %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.bonus %></a></td>
+              <td><a href="/shifts/<%= shift.id %>/edit">$<%= shift.reimbursements %></a></td>
+              <td class="text-center">
+                <i class="fa fa-check-square" aria-hidden="true"></i>
+              </td>
+              <td>
+                <a href="/delete_shift/<%= shift.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+              </td>
+            </tr>
+            <% end %>
+          </table>
 
-              <% end %>
-            </table>
-
-          </div>
         </div>
+      </div>
 
-        <% end %>
+      <% end %>

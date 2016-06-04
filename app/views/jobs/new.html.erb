@@ -1,11 +1,11 @@
 <!-- Validation failure messages -->
 <% if @job.errors.any? %>
-  <% @job.errors.full_messages.each do |message| %>
-    <div class="alert alert-dismissable alert-danger">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= message %>
-    </div>
-  <% end %>
+<% @job.errors.full_messages.each do |message| %>
+<div class="alert alert-dismissable alert-danger">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+  <%= message %>
+</div>
+<% end %>
 <% end %>
 
 <div class="page-header">
@@ -18,31 +18,43 @@
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for approval -->
-      <div class="checkbox">
-        <label for="approval">
-          <input type="checkbox" id="approval" name="approval" value="1" <%= "checked" if @job.approval %>>
-          Approval
-        </label>
-      </div>
+      <!-- Hidden input for approval -->
 
-      <!-- Label and input for pay_rate -->
+      <input type="hidden" id="approval" name="approval" value="1" <%= "checked" if @job.approval %>>
+
+      <!-- Label and input for user_id -->
       <div class="form-group">
-        <label for="pay_rate" class="control-label">
-          Pay rate
+        <label for="user_id" class="control-label">
+          Employee
         </label>
 
-        <input type="text" id="pay_rate" name="pay_rate" placeholder="Pay rate" class="form-control" value="<%= @job.pay_rate %>">
+        <select class="form-control" id="user_id" name="user_id">
+          <% @user.each do |user| %>
+          <option value="<%= user.id %>"><%= user.first_name %> <%= user.last_name %></option>
+          <% end %>
+        </select>
       </div>
 
       <!-- Label and input for title -->
       <div class="form-group">
         <label for="title" class="control-label">
-          Title
+          Job Title
         </label>
 
         <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @job.title %>">
       </div>
+
+
+      <!-- Label and input for pay_rate -->
+      <div class="form-group">
+        <label for="pay_rate" class="control-label">
+          Hourly Salary
+        </label>
+
+        <input type="text" id="pay_rate" name="pay_rate" placeholder="Pay rate" class="form-control" value="<%= @job.pay_rate %>">
+      </div>
+
+
 
       <!-- Label and input for company_id -->
       <div class="form-group">
@@ -50,7 +62,11 @@
           Company
         </label>
 
-        <input type="text" id="company_id" name="company_id" placeholder="Company" class="form-control" value="<%= @job.company_id %>">
+        <select class="form-control" id="company_id" name="company_id">
+          <% @company.each do |company| %>
+          <option value="<%= company.id %>"><%= company.name %></option>
+          <% end %>
+        </select>
       </div>
 
       <!-- Label and input for admin_id -->
@@ -59,17 +75,14 @@
           Admin
         </label>
 
-        <input type="text" id="admin_id" name="admin_id" placeholder="Admin" class="form-control" value="<%= @job.admin_id %>">
+        <select class="form-control" id="admin_id" name="admin_id">
+          <% @admin.each do |admin| %>
+          <option value="<%= admin.id %>"><%= admin.user.first_name %> <%= admin.user.last_name %></option>
+          <% end %>
+        </select>
       </div>
 
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @job.user_id %>">
-      </div>
 
       <button class="btn btn-success">
         Create Job

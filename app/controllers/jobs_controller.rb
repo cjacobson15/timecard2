@@ -21,6 +21,9 @@ class JobsController < ApplicationController
 
   def new
     @job = Job.new
+    @admin = Admin.all
+    @company = Company.all
+    @user = User.all
   end
 
   def create
