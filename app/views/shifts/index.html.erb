@@ -4,7 +4,7 @@
   </h1>
 </div>
 
-<% current_user.jobs.each do |job| %>
+<% @jobs.find_by(admin_id: current_user.id).each do |job| %>
 
 
 <h2><%= job.company.name.upcase %>: <%= job.title %></h2>
@@ -23,8 +23,7 @@
         <th></th>
       </tr>
 
-      <% @shifts.each do |shift| %>
-      <% if shift.job.user_id == current_user.id %>
+      <% @shifts.find_by(job_id: job.id).each do |shift| %>
       <tr>
         <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>
         <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.in_time_zone("Central Time (US & Canada)").hour.to_s.rjust(2, '0') %>:<%= shift.time_in.min.to_s.rjust(2, '0') %></a></td>
@@ -37,7 +36,6 @@
           <a href="/delete_shift/<%= shift.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
         </td>
       </tr>
-      <% end %>
       <% end %>
     </table>
 

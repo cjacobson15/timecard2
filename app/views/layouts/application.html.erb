@@ -14,8 +14,8 @@
   }
   </style>
 
-  <%= stylesheet_link_tag    "default", :media => "all" %>
-  <%= javascript_include_tag "default" %>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -37,9 +37,13 @@
         <a href="/" class="navbar-brand">Timecard</a>
       </div>
 
+
+
+
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+          <% if current_user.present? %>
           <% if Admin.where( user_id: current_user.id ).present? %>
           <li><a href="/shifts"><i class="fa fa-list" aria-hidden="true"></i> See Your Shifts</a></li>
           <li><a href="/approvals/<%= current_user.id %>"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Approve Shifts</a></li>
@@ -51,7 +55,7 @@
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <% if user_signed_in? %>
+
           <li><a href="/users/edit"><i class="fa fa-fw fa-edit"></i> <%= current_user.first_name.capitalize %></a></li>
           <li><a href="/users/sign_out" data-method="delete" rel="nofollow"><i class="fa fa-fw fa-sign-out"></i> Sign Out</a></a></li>
           <% else %>

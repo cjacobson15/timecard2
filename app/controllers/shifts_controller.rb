@@ -1,6 +1,7 @@
 class ShiftsController < ApplicationController
   def index
     @shifts = Shift.all.order('time_in DESC')
+    @jobs = Job.all
   end
 
 
