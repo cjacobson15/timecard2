@@ -48,7 +48,7 @@
           <% if Admin.where( user_id: current_user.id ).present? %>
           <li><a href="/shifts"><i class="fa fa-list" aria-hidden="true"></i> See Your Shifts</a></li>
           <li><a href="/approvals/<%= current_user.id %>"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Approve Shifts</a></li>
-          <li><a href="/jobs"><i class="fa fa-briefcase" aria-hidden="true"></i> Manage Jobs</a></li>
+          <li><a href="/manage/jobs"><i class="fa fa-briefcase" aria-hidden="true"></i> Manage Jobs</a></li>
           <% else %>
           <li><a href="/shifts"><i class="fa fa-list" aria-hidden="true"></i> See Past Shifts</a></li>
           <% end %>

@@ -75,6 +75,12 @@ Rails.application.routes.draw do
 
 get "/approvals/:id", :controller => "shifts", :action => "approval_list"
 
+get "/manage/jobs", :controller => "jobs", :action => :manage
+
+get "/approve_shift/:id", :controller => "shifts", :action => "approve"
+
+get "/unapprove_shift/:id", :controller => "shifts", :action => "unapprove"
+
 
   devise_for :users
   root 'jobs#index'

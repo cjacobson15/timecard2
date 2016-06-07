@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Job #<%= @job.id %></h3>
+  <h3>Edit Job</h3>
 </div>
 
 <div class="row">
@@ -18,13 +18,22 @@
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for approval -->
-      <div class="checkbox">
-        <label for="approval">
-          <input type="checkbox" id="approval" name="approval" value="1" <%= "checked" if @job.approval %>>
-          Approval
-        </label>
-      </div>
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+
+        <h4>Employee: <%= @job.user.first_name %> <%= @job.user.last_name %></h4>
+
+        <h5>Company: <%= @job.company.name %></h5>
+
+
+        <!-- Label and input for title -->
+        <div class="form-group">
+          <label for="title" class="control-label">
+            Title
+          </label>
+
+          <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @job.title %>">
+        </div>
 
       <!-- Label and input for pay_rate -->
       <div class="form-group">
@@ -35,23 +44,9 @@
         <input type="text" id="pay_rate" name="pay_rate" placeholder="Pay rate" class="form-control" value="<%= @job.pay_rate %>">
       </div>
 
-      <!-- Label and input for title -->
-      <div class="form-group">
-        <label for="title" class="control-label">
-          Title
-        </label>
 
-        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @job.title %>">
-      </div>
 
-      <!-- Label and input for company_id -->
-      <div class="form-group">
-        <label for="company_id" class="control-label">
-          Company
-        </label>
 
-        <input type="text" id="company_id" name="company_id" placeholder="Company" class="form-control" value="<%= @job.company_id %>">
-      </div>
 
       <!-- Label and input for admin_id -->
       <div class="form-group">
@@ -59,17 +54,16 @@
           Admin
         </label>
 
-        <input type="text" id="admin_id" name="admin_id" placeholder="Admin" class="form-control" value="<%= @job.admin_id %>">
+        <select class="form-control" id="admin_id" name="admin_id">
+          <% @admin.each do |admin| %>
+          <% if admin.company_id == @job.company_id %>
+          <option value="<%= admin.user.id %>"><%= admin.user.first_name %> <%= admin.user.last_name %></option>
+          <% end %>
+          <% end %>
+        </select>
       </div>
 
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @job.user_id %>">
-      </div>
 
       <button class="btn btn-warning">
         Update Job

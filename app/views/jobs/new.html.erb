@@ -77,7 +77,7 @@
 
         <select class="form-control" id="admin_id" name="admin_id">
           <% @admin.each do |admin| %>
-          <option value="<%= admin.id %>"><%= admin.user.first_name %> <%= admin.user.last_name %></option>
+          <option value="<%= admin.user.id %>"><%= admin.user.first_name %> <%= admin.user.last_name %> (<%= admin.company.name %>)</option>
           <% end %>
         </select>
       </div>

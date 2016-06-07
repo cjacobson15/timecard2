@@ -44,20 +44,18 @@ class JobsController < ApplicationController
 
   def edit
     @job = Job.find(params[:id])
+    @admin = Admin.all
   end
 
   def update
     @job = Job.find(params[:id])
 
-    @job.approval = params[:approval]
     @job.pay_rate = params[:pay_rate]
     @job.title = params[:title]
-    @job.company_id = params[:company_id]
     @job.admin_id = params[:admin_id]
-    @job.user_id = params[:user_id]
 
     if @job.save
-      redirect_to "/jobs", :notice => "Job updated successfully."
+      redirect_to "/manage/jobs", :notice => "Job updated successfully."
     else
       render 'edit'
     end
@@ -69,5 +67,10 @@ class JobsController < ApplicationController
     @job.destroy
 
     redirect_to "/jobs", :notice => "Job deleted."
+  end
+
+  def manage
+    @jobs = Job.all.order('user_id ASC')
+    @admin_id = current_user.id
   end
 end

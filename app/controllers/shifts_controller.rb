@@ -60,22 +60,18 @@ class ShiftsController < ApplicationController
 
   def approve
     @shift = Shift.find(params[:id])
-
-    @shift.job_id = params[:job_id]
-    @shift.total_pay = params[:total_pay]
-    @shift.approval = params[:approval]
-    @shift.reimbursements = params[:reimbursements]
-    @shift.bonus = params[:bonus]
-    @shift.hours_worked = params[:hours_worked]
-    @shift.time_out = params[:time_out]
-    @shift.time_in = params[:time_in]
-
-    if @shift.save
-      redirect_to "/shifts", :notice => "Shift updated successfully."
-    else
-      render 'edit'
-    end
+    @shift.approval = true
+    @shift.save
+    redirect_to :back, :notice => "Shift approved"
   end
+
+  def unapprove
+    @shift = Shift.find(params[:id])
+    @shift.approval = false
+    @shift.save
+    redirect_to :back, :notice => "Shift unapproved"
+  end
+
 
   def destroy
     @shift = Shift.find(params[:id])
@@ -88,7 +84,7 @@ class ShiftsController < ApplicationController
   def approval_list
     @shifts = Shift.all.order('time_in DESC')
     @admin_id = params[:id]
-    @jobs = Job.all
+    @jobs = Job.all.order('user_id ASC')
   end
 
 
