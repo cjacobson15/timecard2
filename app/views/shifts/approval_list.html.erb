@@ -9,6 +9,7 @@
 <h2><%= job.user.first_name %> <%= job.user.last_name %>:  <%= job.title %> (<%= job.company.name %>)</h2>
 <hr>
 
+
 <h3>Shifts to approve</h3>
 <div class="row">
   <div class="col-md-12">
@@ -24,6 +25,8 @@
         <th>Approve</th>
         <th> </th>
       </tr>
+
+
       <% @shifts.where(job_id: job.id).each do |shift| %>
       <% if shift.approval != true %>
 
@@ -47,7 +50,7 @@
       <% end %>
     </table>
 
-
+    <% if @shifts.where(job_id: job.id, approval: true).present? %>
     <h3>Previously Approved Shifts</h3>
     <div class="row">
       <div class="col-md-12">
@@ -63,6 +66,9 @@
             <th>Unapprove</th>
             <th></th>
           </tr>
+          <% end %>
+
+
           <% @shifts.where(job_id: job.id, approval: true).each do |shift| %>
           <tr>
             <td><a href="/shifts/<%= shift.id %>/edit"><%= shift.time_in.to_date %></a></td>

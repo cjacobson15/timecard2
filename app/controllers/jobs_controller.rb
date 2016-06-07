@@ -36,7 +36,7 @@ class JobsController < ApplicationController
     @job.user_id = params[:user_id]
 
     if @job.save
-      redirect_to "/jobs", :notice => "Job created successfully."
+      redirect_to "/manage/jobs", :notice => "Job created successfully."
     else
       render 'new'
     end

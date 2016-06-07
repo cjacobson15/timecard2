@@ -51,11 +51,20 @@ class ShiftsController < ApplicationController
     @shift.hours_worked = ((@shift.time_out - @shift.time_in)/3600).round(2)
     @shift.total_pay = (@shift.hours_worked * @shift.job.pay_rate).round(2)
 
-    if @shift.save
-      redirect_to "/shifts", :notice => "Shift updated successfully."
+    if Admin.find_by(user_id: current_user.id).present?
+      if @shift.save
+        redirect_to "/approvals/#{current_user.id}", :notice => "Shift updated successfully."
+      else
+        render 'edit'
+      end
     else
-      render 'edit'
+      if @shift.save
+        redirect_to "/shifts", :notice => "Shift updated successfully."
+      else
+        render 'edit'
+      end
     end
+    
   end
 
   def approve
